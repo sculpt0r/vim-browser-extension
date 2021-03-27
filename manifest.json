@@ -3,9 +3,6 @@
     "version": "1.0",
     "description": "Use VIM keys in browser",
     "manifest_version": 2,
-    "permission": [
-      "http://127.0.0.1/*"
-    ],
     "content_scripts": [
       {
         "matches": [ "http://127.0.0.1/*" ],

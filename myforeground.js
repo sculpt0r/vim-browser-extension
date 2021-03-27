@@ -2,7 +2,7 @@ console.log('Im in front!');
 let isPluginActive = false,
     mode = 'move'; //'move' || 'input'
 
-function KeyPress(e) {
+function HandlePluginToggle(e) {
     if ( e.key === 'v' && e.altKey ) {
         togglePluginActive();
     }
@@ -26,6 +26,8 @@ function activateVim() {
 }
 
 function handleMoveKeys( e ) {
+    HandlePluginToggle(e);
+    if(!isPluginActive){ return; }
     if( ['h','j','k','l'].includes( e.key ) ) {
         console.log('it was nav key!!');
         switch ( e.key ) {
@@ -41,12 +43,12 @@ function handleMoveKeys( e ) {
 }
 
 function MoveCarret( direction ) {
-    document.activeElement.selectionStart += direction; 
-    document.activeElement.selectionEnd += direction; 
+    document.activeElement.selectionStart += direction;
+    document.activeElement.selectionEnd = document.activeElement.selectionStart;
 }
 
 function deactivateVim() {
-
+    console.log('deactivate');
 }
 
-document.onkeydown = KeyPress;
+document.onkeydown = HandlePluginToggle;
