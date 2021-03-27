@@ -37,9 +37,36 @@ function handleMoveKeys( e ) {
             case 'l':
                 MoveCarret( 1 );
             break;
+            case 'j':
+                CalculateHorizontal( 1 );
+            break;
+            case 'k':
+                CalculateHorizontal( -1 );
+            break;
         }
     }
     e.preventDefault();
+}
+
+function CalculateHorizontal( direction ) {
+    const start = document.activeElement.selectionStart,
+        content = document.activeElement.value,
+        nextLineBreakIndex = content.indexOf('\n', start),
+        prevLineBreakIndex = content.lastIndexOf('\n', start),
+        distanceFromLineBegin = start - prevLineBreakIndex;
+
+        let newPos = start;
+
+        if(direction > 0) {
+            newPos = nextLineBreakIndex + distanceFromLineBegin;
+        } else {
+            const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
+            newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
+        }
+
+        document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
+        console.log({doublePrevLineBreakIndex, nextLineBreakIndex, prevLineBreakIndex, distanceFromLineBegin, start, content, newPos})
+
 }
 
 function MoveCarret( direction ) {
