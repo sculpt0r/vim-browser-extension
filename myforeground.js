@@ -21,15 +21,20 @@ function togglePluginActive(){
 
 function activateVim() {
     mode = 'move';
-
+    document.activeElement.selectionEnd = document.activeElement.selectionStart;
+    document.activeElement.selectionEnd++;
     document.onkeydown  = handleMoveKeys;
 }
 
 function handleMoveKeys( e ) {
     HandlePluginToggle(e);
+    
     if(!isPluginActive){ return; }
+
     if( ['h','j','k','l'].includes( e.key ) ) {
+
         console.log('it was nav key!!');
+
         switch ( e.key ) {
             case 'h':
                 MoveCarret( -1 );
@@ -45,6 +50,7 @@ function handleMoveKeys( e ) {
             break;
         }
     }
+
     e.preventDefault();
 }
 
@@ -55,16 +61,17 @@ function CalculateHorizontal( direction ) {
         prevLineBreakIndex = content.lastIndexOf('\n', start),
         distanceFromLineBegin = start - prevLineBreakIndex;
 
-        let newPos = start;
+    let newPos = start;
 
-        if(direction > 0) {
-            newPos = nextLineBreakIndex + distanceFromLineBegin;
-        } else {
-            const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
-            newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
-        }
+    if(direction > 0) {
+        newPos = nextLineBreakIndex + distanceFromLineBegin;
+    } else {
+        const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
+        newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
+    }
 
-        document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
+    document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
+    document.activeElement.selectionEnd++;
 }
 
 function getContent( element ) {
@@ -78,9 +85,11 @@ function getContent( element ) {
 function MoveCarret( direction ) {
     document.activeElement.selectionStart += direction;
     document.activeElement.selectionEnd = document.activeElement.selectionStart;
+    document.activeElement.selectionEnd++;
 }
 
 function deactivateVim() {
+    document.activeElement.selectionEnd = document.activeElement.selectionStart;
 }
 
 document.onkeydown = HandlePluginToggle;
