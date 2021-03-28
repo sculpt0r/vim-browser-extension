@@ -1,4 +1,4 @@
-console.log('Im in front!');
+console.log('VIM typer!');
 let isPluginActive = false,
     mode = 'move'; //'move' || 'input'
 
@@ -50,7 +50,7 @@ function handleMoveKeys( e ) {
 
 function CalculateHorizontal( direction ) {
     const start = document.activeElement.selectionStart,
-        content = document.activeElement.value,
+        content = getContent( document.activeElement ),
         nextLineBreakIndex = content.indexOf('\n', start),
         prevLineBreakIndex = content.lastIndexOf('\n', start),
         distanceFromLineBegin = start - prevLineBreakIndex;
@@ -65,8 +65,14 @@ function CalculateHorizontal( direction ) {
         }
 
         document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
-        console.log({doublePrevLineBreakIndex, nextLineBreakIndex, prevLineBreakIndex, distanceFromLineBegin, start, content, newPos})
+}
 
+function getContent( element ) {
+    if( element.tagName === 'TEXTAREA' ) {
+        return element.value;
+    } else {
+        return element.innerHTML;
+    }
 }
 
 function MoveCarret( direction ) {
@@ -75,7 +81,6 @@ function MoveCarret( direction ) {
 }
 
 function deactivateVim() {
-    console.log('deactivate');
 }
 
 document.onkeydown = HandlePluginToggle;
