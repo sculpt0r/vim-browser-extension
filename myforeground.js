@@ -1,25 +1,37 @@
 console.log('VIM typer!');
-let isPluginActive = false,
-    mode = 'move'; //'move' || 'input'
+let mode;
+// let isPluginActive = false,
+//     mode = 'move'; //'move' || 'input';
+
+document.onkeydown = HandlePluginToggle;
 
 function HandlePluginToggle(e) {
-    if ( e.key === 'v' && e.altKey ) {
-        togglePluginActive();
+    console.log(e, e.key);
+    switch(e.key) {
+        case 'Escape':
+            activateMoveMode();
+            break;
+        case 'i':
+        case 'a':
+            activateInsertMode();
+            e.preventDefault();
+            break;
     }
+    // togglePluginActive();
 }
 
-function togglePluginActive(){
-    isPluginActive = !isPluginActive;
-    console.log('Plugin is now', isPluginActive);
+// function togglePluginActive(){
+//     isPluginActive = !isPluginActive;
+//     console.log('Plugin is now', isPluginActive);
 
-    if( isPluginActive ) {
-        activateVim();
-    } else {
-        deactivateVim();
-    }
-}
+//     if( isPluginActive ) {
+//         activateVim();
+//     } else {
+//         deactivateVim();
+//     }
+// }
 
-function activateVim() {
+function activateMoveMode() {
     mode = 'move';
     document.activeElement.selectionEnd = document.activeElement.selectionStart;
     document.activeElement.selectionEnd++;
@@ -29,7 +41,7 @@ function activateVim() {
 function handleMoveKeys( e ) {
     HandlePluginToggle(e);
     
-    if(!isPluginActive){ return; }
+    if( mode !== 'move' ){ return; }
 
     if( ['h','j','k','l'].includes( e.key ) ) {
 
@@ -88,8 +100,7 @@ function MoveCarret( direction ) {
     document.activeElement.selectionEnd++;
 }
 
-function deactivateVim() {
+function activateInsertMode() {
+    mode = 'insert';
     document.activeElement.selectionEnd = document.activeElement.selectionStart;
 }
-
-document.onkeydown = HandlePluginToggle;
