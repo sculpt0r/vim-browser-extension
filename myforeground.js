@@ -6,14 +6,24 @@ let mode;
 document.onkeydown = HandlePluginToggle;
 
 function HandlePluginToggle(e) {
-    console.log(e, e.key);
-	if( e.key === 'Escape' ) {
-		activateMoveMode();
-	}
+	if( !mode) {
+		if( e.key === 'v' && e.altKey ) {
+			if( !mode ) {
+				activateInsertMode();
+			} else {
+				mode = null;
+				//unpin all listeners etc....
+			}
+		}
+	} else {
+		if( e.key === 'Escape' ) {
+			activateMoveMode();
+		}
 
-	if ( mode === 'move' && ( e.key === 'i' || e.key === 'a' ) ) {
-		activateInsertMode();
-		e.preventDefault();
+		if ( mode === 'move' && ( e.key === 'i' || e.key === 'a' ) ) {
+			activateInsertMode();
+			e.preventDefault();
+		}
 	}
 }
 
