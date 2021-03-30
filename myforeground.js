@@ -7,29 +7,15 @@ document.onkeydown = HandlePluginToggle;
 
 function HandlePluginToggle(e) {
     console.log(e, e.key);
-    switch(e.key) {
-        case 'Escape':
-            activateMoveMode();
-            break;
-        case 'i':
-        case 'a':
-            activateInsertMode();
-            e.preventDefault();
-            break;
-    }
-    // togglePluginActive();
+	if( e.key === 'Escape' ) {
+		activateMoveMode();
+	}
+
+	if ( mode === 'move' && ( e.key === 'i' || e.key === 'a' ) ) {
+		activateInsertMode();
+		e.preventDefault();
+	}
 }
-
-// function togglePluginActive(){
-//     isPluginActive = !isPluginActive;
-//     console.log('Plugin is now', isPluginActive);
-
-//     if( isPluginActive ) {
-//         activateVim();
-//     } else {
-//         deactivateVim();
-//     }
-// }
 
 function activateMoveMode() {
     mode = 'move';
