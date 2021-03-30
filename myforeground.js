@@ -91,8 +91,11 @@ function getContent( element ) {
 }
 
 function MoveCarret( direction ) {
-    document.activeElement.selectionStart += direction;
-    document.activeElement.selectionEnd = document.activeElement.selectionStart;
+    var start = document.activeElement.selectionStart;
+
+	var newPos = clamp( start + direction, 0, getContent( document.activeElement ).length -1 );
+
+    document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
     document.activeElement.selectionEnd++;
 }
 
@@ -100,3 +103,8 @@ function activateInsertMode() {
     mode = 'insert';
     document.activeElement.selectionEnd = document.activeElement.selectionStart;
 }
+
+function clamp(value, min, max) {
+	return Math.min(Math.max(value, min), max);
+}
+
