@@ -115,7 +115,7 @@ let indicator;
 function createIndicator(){
 	indicator = document.createElement('div');
 	indicator.style.width = indicator.style.height = '25px';
-	indicator.style.position = 'absolute';
+	indicator.style.position = 'fixed';
 	indicator.style.left = indicator.style.top = '0';
 	indicator.style.background = 'red';
 	document.body.appendChild(indicator);
