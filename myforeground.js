@@ -6,16 +6,19 @@ let mode;
 document.onkeydown = HandlePluginToggle;
 
 function HandlePluginToggle(e) {
-	if( !mode) {
-		if( e.key === 'v' && e.altKey ) {
-			if( !mode ) {
-				activateInsertMode();
-			} else {
-				mode = null;
-				//unpin all listeners etc....
-			}
+	if( e.key === 'v' && e.altKey ) {
+		if( !mode ) {
+			activateInsertMode();
+			setIndicator( true );
+		} else {
+			mode = null;
+			setIndicator( false );
+			//unpin all listeners etc....
 		}
-	} else {
+		return;
+	}
+
+	if( mode ) {
 		if( e.key === 'Escape' ) {
 			activateMoveMode();
 		}
@@ -107,4 +110,22 @@ function activateInsertMode() {
 function clamp(value, min, max) {
 	return Math.min(Math.max(value, min), max);
 }
+
+let indicator;
+function createIndicator(){
+	indicator = document.createElement('div');
+	indicator.style.width = indicator.style.height = '25px';
+	indicator.style.position = 'absolute';
+	indicator.style.left = indicator.style.top = '0';
+	indicator.style.background = 'red';
+	document.body.appendChild(indicator);
+}
+
+function setIndicator( isActive ) {
+	indicator.style.background = isActive ? 'green' : 'red';
+}
+
+window.addEventListener('DOMContentLoaded', function(event) {
+	createIndicator();
+});
 
