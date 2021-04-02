@@ -94,6 +94,13 @@ function getContent( element ) {
 }
 
 function MoveCarret( direction ) {
+//     let p = document.activeElement; 
+// let range = new Range();
+//   range.setStart(p.firstChild, 0);
+//   range.setEnd(p.firstChild, 2);
+// document.getSelection().removeAllRanges();
+// document.getSelection().addRange(range);
+
     var start = document.activeElement.selectionStart;
 
 	var newPos = clamp( start + direction, 0, getContent( document.activeElement ).length -1 );
