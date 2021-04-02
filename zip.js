@@ -40,7 +40,7 @@ archive.on('error', function(err) {
 // pipe archive data to the file
 archive.pipe(output);
 
-archive.directory('src/', false);
+archive.directory('src-obfuscated/', false);
 
 // finalize the archive (ie we are done appending files but streams have to finish yet)
 // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
