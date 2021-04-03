@@ -40,6 +40,8 @@ archive.on('error', function(err) {
 // pipe archive data to the file
 archive.pipe(output);
 
+archive.file('src/manifest.json', { name: 'manifest.json' });
+
 archive.directory('src-obfuscated/', false);
 
 // finalize the archive (ie we are done appending files but streams have to finish yet)
