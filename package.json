@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "obfuscate": "javascript-obfuscator ./src --output ./src-obfuscated",
     "zip": "node zip.js",
-    "release": "npm run obfuscate && npm run zip"
+    "release": "npm run zip"
   },
   "repository": {
     "type": "git",
