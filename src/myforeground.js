@@ -42,6 +42,7 @@ class InsertMode extends Mode {
         super.activate();
         console.log('activate insertu');
     }
+
     deactivate() {
         super.deactivate();
         console.log('deactiv inseru');
@@ -61,11 +62,12 @@ class NavigationMode extends Mode {
         super.activate();
         console.log('activate nav mode');
 
-        this.keyListener = (e) => { this.handleKeys(e);}
+        this.keyListener = ( e ) => { this.handleKeys( e ); }
 
         document.addEventListener( 'keydown', this.keyListener );
 
-        this.MoveCarret( 0 );
+        let pos = document.activeElement.selectionStart;
+        this.MoveCarret( pos );
     }
 
     deactivate() {
@@ -78,14 +80,15 @@ class NavigationMode extends Mode {
     handleKeys( e ) {
         if( ['h','j','k','l'].includes( e.key ) ) {
     
-            console.log('it was nav key!!', this);
-    
             switch ( e.key ) {
                 case 'h':
-                    this.MoveCarret( -1 );
+                    let pos = document.activeElement.selectionStart - 1;
+
+                    this.MoveCarret( pos );
                 break;
                 case 'l':
-                    this.MoveCarret( 1 );
+                    let poss = document.activeElement.selectionStart + 1;
+                    this.MoveCarret( poss );
                 break;
                 case 'j':
                     this.CalculateHorizontal( 1 );
@@ -94,9 +97,8 @@ class NavigationMode extends Mode {
                     this.CalculateHorizontal( -1 );
                 break;
             }
+            e.preventDefault();
         }
-    
-        e.preventDefault();
     }
 
     CalculateHorizontal( direction ) {
@@ -119,7 +121,7 @@ class NavigationMode extends Mode {
         document.activeElement.selectionEnd++;
     }
 
-    MoveCarret( direction ) {
+    MoveCarret( pos ) {
         //     let p = document.activeElement; 
         // let range = new Range();
         //   range.setStart(p.firstChild, 0);
@@ -127,9 +129,15 @@ class NavigationMode extends Mode {
         // document.getSelection().removeAllRanges();
         // document.getSelection().addRange(range);
 
-        var start = document.activeElement.selectionStart;
+        const content = getContent( document.activeElement );
+        const charAtNewPos = content.charAt(pos);
 
-        var newPos = clamp( start + direction, 0, getContent( document.activeElement ).length -1 );
+        // `h`, `l` - allows to move only inside one line!
+        if (charAtNewPos === '\n' ) {
+            return;
+        }
+
+        const newPos = clamp( pos, 0, content.length -1 );
 
         document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
         document.activeElement.selectionEnd++;
@@ -146,6 +154,7 @@ class EmptyMode extends Mode {
     activate() {
         super.activate();
         console.log('active empty');
+        document.activeElement.selectionEnd = document.activeElement.selectionStart;
     }
 }
 const modeMgr  = new ModeManager();
@@ -154,12 +163,13 @@ document.addEventListener( 'keydown', HandlePluginToggle );
 
 function HandlePluginToggle(e) {
 	if( e.key === 'v' && e.altKey ) {
+
 		if( modeMgr.anyMode() ) {
             modeMgr.changeMode(new EmptyMode());
 			setIndicator( false );
 			//unpin all listeners etc....
         } else {
-            modeMgr.changeMode(new InsertMode());
+            modeMgr.changeMode(new NavigationMode());
 			setIndicator( true );
 		}
 		return;
@@ -176,9 +186,6 @@ function HandlePluginToggle(e) {
 		}
 	}
 }
-
-
-
 
 
 
@@ -199,7 +206,7 @@ function clamp(value, min, max) {
 let indicator;
 function createIndicator(){
 	indicator = document.createElement('div');
-	indicator.style.width = indicator.style.height = '25px';
+	indicator.style.width = indicator.style.height = '5px';
 	indicator.style.position = 'fixed';
 	indicator.style.left = indicator.style.top = '0';
 	indicator.style.background = 'red';
