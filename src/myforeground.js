@@ -63,8 +63,7 @@ class NavigationMode extends Mode {
 
         document.addEventListener( 'keydown', this.handleKeys);
 
-        document.activeElement.selectionEnd = document.activeElement.selectionStart;
-        document.activeElement.selectionEnd++;
+        this.MoveCarret( 0 );
     }
 
     deactivate() {
