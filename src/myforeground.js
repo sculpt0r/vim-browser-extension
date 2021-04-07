@@ -61,7 +61,9 @@ class NavigationMode extends Mode {
         super.activate();
         console.log('activate nav mode');
 
-        document.addEventListener( 'keydown', this.handleKeys);
+        this.keyListener = (e) => { this.handleKeys(e);}
+
+        document.addEventListener( 'keydown', this.keyListener );
 
         this.MoveCarret( 0 );
     }
@@ -70,7 +72,7 @@ class NavigationMode extends Mode {
         super.deactivate();
         console.log('deactivate nav mdoe');
 
-        document.removeEventListener( 'keydown', this.handleKeys );
+        document.removeEventListener( 'keydown', this.keyListener );
     }
 
     handleKeys( e ) {
