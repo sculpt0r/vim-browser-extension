@@ -10,7 +10,7 @@
     "mocha": "^8.3.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "obfuscate": "javascript-obfuscator ./src --output ./src-obfuscated",
     "zip": "node zip.js",
     "release": "npm run zip"
