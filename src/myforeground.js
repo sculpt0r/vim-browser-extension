@@ -65,8 +65,15 @@ class NavigationMode extends Mode {
         this.keyListener = ( e ) => { this.handleKeys( e ); }
 
         document.addEventListener( 'keydown', this.keyListener );
-
+        
         let pos = document.activeElement.selectionStart;
+
+        const content = getContent( document.activeElement );
+        const charAtNewPos = content.charAt(pos);
+
+        if( charAtNewPos === '\n' ) {
+            pos -=1;
+        }
         this.MoveCarret( pos );
     }
 
@@ -116,9 +123,7 @@ class NavigationMode extends Mode {
             const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
             newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
         }
-    
-        document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
-        document.activeElement.selectionEnd++;
+        this.MoveCarret(newPos);
     }
 
     MoveCarret( pos ) {
