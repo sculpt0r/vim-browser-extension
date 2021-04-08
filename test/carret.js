@@ -127,5 +127,31 @@ describe('Carret', function() {
       assert.strictEqual( start, startCarret );
       assert.strictEqual( end, start + 1 );
     } );
+
+    it('[j] move down with same offset from left with proper line length', function() {
+      //                   012 3456
+      const initialData = 'abc\ndef';
+      const startCarret = 2;
+
+      const [start, end] = CalculateHorizontal( startCarret, DOWN, initialData );
+
+      assert.strictEqual( start, 6 );
+      assert.strictEqual( end, start + 1 );
+    } );
+
+    it('[k] move up with same offset from left with proper line length', function() {
+      //                   012 3456
+      const initialData = 'abc\ndef';
+      const startCarret = 6;
+
+      const [start, end] = CalculateHorizontal( startCarret, UP, initialData );
+
+      assert.strictEqual( start, 2 );
+      assert.strictEqual( end, start + 1 );
+    } );
+
+    //jk locking after few types.... :/
+    //reset proper left offset after mode changes!
+
   } );
 });
