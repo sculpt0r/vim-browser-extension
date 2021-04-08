@@ -83,49 +83,31 @@ class NavigationMode extends Mode {
 
     handleKeys( e ) {
         if( ['h','j','k','l'].includes( e.key ) ) {
-            let start, end;
-            switch ( e.key ) {
-                case 'h':
-                    let pos = document.activeElement.selectionStart;
+            let start, end = -1;
+            const content = getContent(document.activeElement);
+            const pos = document.activeElement.selectionStart;
 
-                    [start, end ] = MoveCarret( pos, pos-1, getContent(document.activeElement) );
-                    document.activeElement.selectionStart = start;
-                    document.activeElement.selectionEnd = end;
-                break;
-                case 'l':
-                    let poss = document.activeElement.selectionStart;
-
-                    [ start, end ] = MoveCarret( poss, poss+1, getContent(document.activeElement) );
-                    document.activeElement.selectionStart = start;
-                    document.activeElement.selectionEnd = end;
-                break;
-                case 'j':
-                    this.CalculateHorizontal( 1 );
-                break;
-                case 'k':
-                    this.CalculateHorizontal( -1 );
-                break;
+            if ( e.key === 'h' ) {
+                [ start, end ] = MoveCarret( pos, pos - 1, content );
             }
-            e.preventDefault();
-        }
-    }
 
-    CalculateHorizontal( direction ) {
-        const start = document.activeElement.selectionStart,
-            content = getContent( document.activeElement ),
-            nextLineBreakIndex = content.indexOf('\n', start),
-            prevLineBreakIndex = content.lastIndexOf('\n', start),
-            distanceFromLineBegin = start - prevLineBreakIndex;
-    
-        let newPos = start;
-    
-        if(direction > 0) {
-            newPos = nextLineBreakIndex + distanceFromLineBegin;
-        } else {
-            const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
-            newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
+            if ( e.key === 'l' ) {
+                [ start, end ] = MoveCarret( pos, pos + 1, content );
+            }
+
+            if ( e.key === 'k' ) {
+                [ start, end ] = CalculateHorizontal( pos, -1, content );
+            }
+
+            if ( e.key === 'j' ) {
+                [ start, end ] = CalculateHorizontal( pos, 1, content );
+            }
+            if ( start > -1 && end > -1 ) {
+                document.activeElement.selectionStart = start;
+                document.activeElement.selectionEnd = end;
+            }
         }
-        this.MoveCarret(newPos);
+        e.preventDefault();
     }
 }
 
@@ -171,8 +153,6 @@ function HandlePluginToggle(e) {
 	}
 }
 
-
-
 function getContent( element ) {
     if( element.tagName === 'TEXTAREA' ) {
         return element.value;
@@ -180,9 +160,6 @@ function getContent( element ) {
         return element.innerHTML;
     }
 }
-
-
-
 
 let indicator;
 function createIndicator(){

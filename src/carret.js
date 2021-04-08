@@ -33,6 +33,29 @@ function InitializeCarret( currentPos, content ){
     return [ currentPos, currentPos + 1 ];
 }
 
+function CalculateHorizontal( currentPos, direction, content ) {
+    const UP = -1;
+    const DOWN = 1;
+
+    const nextLineBreakIndex = content.indexOf('\n', currentPos);
+    const prevLineBreakIndex = content.lastIndexOf('\n', currentPos);
+    const distanceFromLineBegin = currentPos - prevLineBreakIndex;
+
+    let newPos = currentPos;
+
+    if( direction === DOWN ) {
+        newPos = nextLineBreakIndex + distanceFromLineBegin;
+    } else {
+        // Look for new line before currentPos
+        // Don't want to fine current line '\n' char
+        // Want to find '\n' from line above
+        const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
+        newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
+    }
+
+    return [ newPos, newPos + 1 ];
+}
+
 if( typeof module !== 'undefined') {
-    module.exports = { MoveCarret, InitializeCarret };
+    module.exports = { MoveCarret, InitializeCarret, CalculateHorizontal };
 }

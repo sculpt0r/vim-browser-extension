@@ -1,56 +1,11 @@
 const assert = require('assert');
-const {MoveCarret, InitializeCarret} = require('../src/carret');
-const document = {};
+const { MoveCarret, InitializeCarret, CalculateHorizontal } = require('../src/carret');
+const UP = -1;
+const DOWN = 1;
 
 
 describe('Carret', function() {
-  describe('left \'h\' and right \'l\' keys', function() {
-    it('[h] doesnt change position if prev character is \\n character', function() {
-      //                   012 3456
-      const initialData = 'abc\ndef';
-
-      const [start, end] = MoveCarret(4, 3, initialData);
-      assert.strictEqual(start, 4);
-      assert.strictEqual(end, start + 1);
-    });
-
-    it('[l] doesnt change position if next character is \\n character', function() {
-      //                   012 3456 7
-      const initialData = 'abc\ndef\n';
-
-      const [start, end] = MoveCarret(2, 3, initialData);
-      assert.strictEqual(start, 2);
-      assert.strictEqual(end, start + 1);
-    });
-
-    it('[l] doesnt change position if next character is out of content scope', function() {
-      //                   012 3456
-      const initialData = 'abc\ndef';
-
-      const [start, end] = MoveCarret(6, 7, initialData);
-      assert.strictEqual(start, 6);
-      assert.strictEqual(end, start + 1);
-    });
-
-    it('[h] doesnt change position if prev character is new line character', function() {
-      //                   012 3456
-      const initialData = 'abc\ndef';
-
-      const [start, end] = MoveCarret(0, -1, initialData);
-      assert.strictEqual(start, 0);
-      assert.strictEqual(end, start + 1);
-    });
-
-    it('[l] doesnt change position if current character is new line character', function() {
-      //                   012 3 4567
-      const initialData = 'abc\n\ndef';
-
-      const [start, end] = MoveCarret(4, 5, initialData);
-      assert.strictEqual(start, 4);
-      assert.strictEqual(end, start + 1);
-    });
-  });
-  describe('initialization of navigation mode', function() {
+  describe( 'initialization of navigation mode', function() {
     it('set vim-nav-carret on the same place if carret between non new line characters', function() {
       //                   012 3456 7
       const initialData = 'abc\ndef\n';
@@ -101,5 +56,65 @@ describe('Carret', function() {
       assert.strictEqual( end, start + 1 );
     });
 
-  });
+  } );
+
+  describe('left \'h\' and right \'l\' keys', function() {
+    it('[h] doesnt change position if prev character is \\n character', function() {
+      //                   012 3456
+      const initialData = 'abc\ndef';
+
+      const [start, end] = MoveCarret(4, 3, initialData);
+      assert.strictEqual(start, 4);
+      assert.strictEqual(end, start + 1);
+    });
+
+    it('[l] doesnt change position if next character is \\n character', function() {
+      //                   012 3456 7
+      const initialData = 'abc\ndef\n';
+
+      const [start, end] = MoveCarret(2, 3, initialData);
+      assert.strictEqual(start, 2);
+      assert.strictEqual(end, start + 1);
+    });
+
+    it('[l] doesnt change position if next character is out of content scope', function() {
+      //                   012 3456
+      const initialData = 'abc\ndef';
+
+      const [start, end] = MoveCarret(6, 7, initialData);
+      assert.strictEqual(start, 6);
+      assert.strictEqual(end, start + 1);
+    });
+
+    it('[h] doesnt change position if prev character is new line character', function() {
+      //                   012 3456
+      const initialData = 'abc\ndef';
+
+      const [start, end] = MoveCarret(0, -1, initialData);
+      assert.strictEqual(start, 0);
+      assert.strictEqual(end, start + 1);
+    });
+
+    it('[l] doesnt change position if current character is new line character', function() {
+      //                   012 3 4567
+      const initialData = 'abc\n\ndef';
+
+      const [start, end] = MoveCarret(4, 5, initialData);
+      assert.strictEqual(start, 4);
+      assert.strictEqual(end, start + 1);
+    } );
+  } );
+
+  describe( 'up \'j\' and down \'k\' keys', function() {
+    it('[k] doesnt move up if there is no line above', function() {
+      //                   012 3456
+      const initialData = 'abc\ndef';
+      const startCarret = 2;
+
+      const [start, end] = CalculateHorizontal( startCarret, UP, initialData );
+
+      assert.strictEqual( start, startCarret );
+      assert.strictEqual( end, start + 1 );
+    } );
+  } );
 });
