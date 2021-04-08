@@ -52,8 +52,6 @@ class InsertMode extends Mode {
 class NavigationMode extends Mode {
     constructor() {
         super();
-    
-
         console.log('navmode constructor');
     }
 
@@ -66,9 +64,10 @@ class NavigationMode extends Mode {
         document.addEventListener( 'keydown', this.keyListener );
         
         let pos = document.activeElement.selectionStart;
-
         const content = getContent( document.activeElement );
-       
+
+        this.leftOffset = this.recalculateLeftOffset( pos, content );
+
         const [ start, end ] = InitializeCarret( pos, content );
         document.activeElement.selectionStart = start;
         document.activeElement.selectionEnd = end;
@@ -76,9 +75,13 @@ class NavigationMode extends Mode {
 
     deactivate() {
         super.deactivate();
-        console.log('deactivate nav mdoe');
+        console.log('deactivate nav mode');
 
         document.removeEventListener( 'keydown', this.keyListener );
+    }
+
+    recalculateLeftOffset( pos, content ) {
+        return content.lastIndexOf( '\n', pos );
     }
 
     handleKeys( e ) {
@@ -89,18 +92,20 @@ class NavigationMode extends Mode {
 
             if ( e.key === 'h' ) {
                 [ start, end ] = MoveCarret( pos, pos - 1, content );
+                this.leftOffset = this.recalculateLeftOffset( start, content );
             }
 
             if ( e.key === 'l' ) {
                 [ start, end ] = MoveCarret( pos, pos + 1, content );
+                this.leftOffset = this.recalculateLeftOffset( start, content );
             }
 
             if ( e.key === 'k' ) {
-                [ start, end ] = CalculateHorizontal( pos, -1, content );
+                [ start, end ] = CalculateHorizontal( pos, -1, this.leftOffset, content );
             }
 
             if ( e.key === 'j' ) {
-                [ start, end ] = CalculateHorizontal( pos, 1, content );
+                [ start, end ] = CalculateHorizontal( pos, 1, this.leftOffset, content );
             }
             if ( start > -1 && end > -1 ) {
                 document.activeElement.selectionStart = start;

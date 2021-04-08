@@ -33,7 +33,7 @@ function InitializeCarret( currentPos, content ){
     return [ currentPos, currentPos + 1 ];
 }
 
-function CalculateHorizontal( currentPos, direction, content ) {
+function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
     const UP = -1;
     const DOWN = 1;
 

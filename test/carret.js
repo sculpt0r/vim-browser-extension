@@ -110,8 +110,9 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 2;
+      const leftOffset = initialData.lastIndexOf('\n', startCarret);
 
-      const [start, end] = CalculateHorizontal( startCarret, UP, initialData );
+      const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
 
       assert.strictEqual( start, startCarret );
       assert.strictEqual( end, start + 1 );
@@ -121,8 +122,9 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 5;
+      const leftOffset = initialData.lastIndexOf('\n', startCarret);
 
-      const [start, end] = CalculateHorizontal( startCarret, DOWN, initialData );
+      const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
 
       assert.strictEqual( start, startCarret );
       assert.strictEqual( end, start + 1 );
@@ -132,8 +134,9 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 2;
+      const leftOffset = initialData.lastIndexOf('\n', startCarret);
 
-      const [start, end] = CalculateHorizontal( startCarret, DOWN, initialData );
+      const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
 
       assert.strictEqual( start, 6 );
       assert.strictEqual( end, start + 1 );
@@ -143,14 +146,15 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 6;
+      const leftOffset = initialData.lastIndexOf('\n', startCarret);
 
-      const [start, end] = CalculateHorizontal( startCarret, UP, initialData );
+      const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
 
       assert.strictEqual( start, 2 );
       assert.strictEqual( end, start + 1 );
     } );
 
-    //jk locking after few types.... :/
+    //jk locking after few types.... :/ - mainly if jump from line to line and appears at new line character
     //reset proper left offset after mode changes!
 
   } );
