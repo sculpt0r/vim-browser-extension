@@ -1,5 +1,4 @@
 // console.log('VIM typer!');
-
 class Mode {
     deactivate() {
 
@@ -69,12 +68,10 @@ class NavigationMode extends Mode {
         let pos = document.activeElement.selectionStart;
 
         const content = getContent( document.activeElement );
-        const charAtNewPos = content.charAt(pos);
-
-        if( charAtNewPos === '\n' ) {
-            pos -=1;
-        }
-        this.MoveCarret( pos );
+       
+        const [ start, end ] = InitializeCarret( pos, content );
+        document.activeElement.selectionStart = start;
+        document.activeElement.selectionEnd = end;
     }
 
     deactivate() {
@@ -86,16 +83,21 @@ class NavigationMode extends Mode {
 
     handleKeys( e ) {
         if( ['h','j','k','l'].includes( e.key ) ) {
-    
+            let start, end;
             switch ( e.key ) {
                 case 'h':
-                    let pos = document.activeElement.selectionStart - 1;
+                    let pos = document.activeElement.selectionStart;
 
-                    this.MoveCarret( pos );
+                    [start, end ] = MoveCarret( pos, pos-1, getContent(document.activeElement) );
+                    document.activeElement.selectionStart = start;
+                    document.activeElement.selectionEnd = end;
                 break;
                 case 'l':
-                    let poss = document.activeElement.selectionStart + 1;
-                    this.MoveCarret( poss );
+                    let poss = document.activeElement.selectionStart;
+
+                    [ start, end ] = MoveCarret( poss, poss+1, getContent(document.activeElement) );
+                    document.activeElement.selectionStart = start;
+                    document.activeElement.selectionEnd = end;
                 break;
                 case 'j':
                     this.CalculateHorizontal( 1 );
@@ -125,29 +127,6 @@ class NavigationMode extends Mode {
         }
         this.MoveCarret(newPos);
     }
-
-    MoveCarret( pos ) {
-        //     let p = document.activeElement; 
-        // let range = new Range();
-        //   range.setStart(p.firstChild, 0);
-        //   range.setEnd(p.firstChild, 2);
-        // document.getSelection().removeAllRanges();
-        // document.getSelection().addRange(range);
-
-        const content = getContent( document.activeElement );
-        const charAtNewPos = content.charAt(pos);
-
-        // `h`, `l` - allows to move only inside one line!
-        if (charAtNewPos === '\n' ) {
-            return;
-        }
-
-        const newPos = clamp( pos, 0, content.length -1 );
-
-        document.activeElement.selectionEnd = document.activeElement.selectionStart = newPos;
-        document.activeElement.selectionEnd++;
-    }
-    
 }
 
 class EmptyMode extends Mode {
@@ -204,9 +183,6 @@ function getContent( element ) {
 
 
 
-function clamp(value, min, max) {
-	return Math.min(Math.max(value, min), max);
-}
 
 let indicator;
 function createIndicator(){
