@@ -39,7 +39,7 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
 
     const nextLineBreakIndex = content.indexOf('\n', currentPos);
     const prevLineBreakIndex = content.lastIndexOf('\n', currentPos);
-    const distanceFromLineBegin = currentPos - prevLineBreakIndex;
+    const distanceFromLineBegin = leftOffset;//currentPos - prevLineBreakIndex;
 
     let newPos = currentPos;
 
@@ -58,6 +58,10 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
     return [ newPos, newPos + 1 ];
 }
 
+function RecalculateLeftOffset( pos, content ) {
+    return content.lastIndexOf( '\n', pos );
+}
+
 if( typeof module !== 'undefined') {
-    module.exports = { MoveCarret, InitializeCarret, CalculateHorizontal };
+    module.exports = { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset };
 }

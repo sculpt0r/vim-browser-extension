@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { MoveCarret, InitializeCarret, CalculateHorizontal } = require('../src/carret');
+const { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset } = require('../src/carret');
 const UP = -1;
 const DOWN = 1;
 
@@ -110,7 +110,7 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 2;
-      const leftOffset = initialData.lastIndexOf('\n', startCarret);
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
 
       const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
 
@@ -122,7 +122,7 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 5;
-      const leftOffset = initialData.lastIndexOf('\n', startCarret);
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
 
       const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
 
@@ -134,7 +134,7 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 2;
-      const leftOffset = initialData.lastIndexOf('\n', startCarret);
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
 
       const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
 
@@ -146,7 +146,7 @@ describe('Carret', function() {
       //                   012 3456
       const initialData = 'abc\ndef';
       const startCarret = 6;
-      const leftOffset = initialData.lastIndexOf('\n', startCarret);
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
 
       const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
 
@@ -154,8 +154,19 @@ describe('Carret', function() {
       assert.strictEqual( end, start + 1 );
     } );
 
+    it('[k] move up with most possible offset if line is shorter', function() {
+      //                   012 34
+      const initialData = 'a\ndef';
+      const startCarret = 4;
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
+
+      const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
+
+      assert.strictEqual( start, 0 );
+      assert.strictEqual( end, start + 1 );
+    } );
+
     //jk locking after few types.... :/ - mainly if jump from line to line and appears at new line character
-    //reset proper left offset after mode changes!
 
   } );
 });

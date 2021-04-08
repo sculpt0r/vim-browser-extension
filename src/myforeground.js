@@ -66,7 +66,7 @@ class NavigationMode extends Mode {
         let pos = document.activeElement.selectionStart;
         const content = getContent( document.activeElement );
 
-        this.leftOffset = this.recalculateLeftOffset( pos, content );
+        this.leftOffset = RecalculateLeftOffset( pos, content );
 
         const [ start, end ] = InitializeCarret( pos, content );
         document.activeElement.selectionStart = start;
@@ -80,10 +80,6 @@ class NavigationMode extends Mode {
         document.removeEventListener( 'keydown', this.keyListener );
     }
 
-    recalculateLeftOffset( pos, content ) {
-        return content.lastIndexOf( '\n', pos );
-    }
-
     handleKeys( e ) {
         if( ['h','j','k','l'].includes( e.key ) ) {
             let start, end = -1;
@@ -92,12 +88,12 @@ class NavigationMode extends Mode {
 
             if ( e.key === 'h' ) {
                 [ start, end ] = MoveCarret( pos, pos - 1, content );
-                this.leftOffset = this.recalculateLeftOffset( start, content );
+                this.leftOffset = RecalculateLeftOffset( start, content );
             }
 
             if ( e.key === 'l' ) {
                 [ start, end ] = MoveCarret( pos, pos + 1, content );
-                this.leftOffset = this.recalculateLeftOffset( start, content );
+                this.leftOffset = RecalculateLeftOffset( start, content );
             }
 
             if ( e.key === 'k' ) {
