@@ -91,5 +91,15 @@ describe('Carret', function() {
       assert.strictEqual( end, start + 1 );
     });
 
+    it('set vim-nav-carret on last character if current carret is at the end', function() {
+      //                    0123 4 5678
+      const initialData = '\nabc\n\ndef';
+      const normalCarretPosition = 9;
+
+      const [start, end] = InitializeCarret( normalCarretPosition, initialData );
+      assert.strictEqual( start, normalCarretPosition - 1 );
+      assert.strictEqual( end, start + 1 );
+    });
+
   });
 });

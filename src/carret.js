@@ -23,9 +23,10 @@ function MoveCarret( currentPos, wantedPosition, content ) {
 function InitializeCarret( currentPos, content ){
     const currentCharacter = content.charAt( currentPos );
     const prevChar = content.charAt( currentPos - 1 );
+    // console.log({currentPos, currentCharacter});
     
     //Take previous character if current is new line
-    if( currentCharacter === '\n' && prevChar !== '\n' && prevChar !== '' ) {
+    if( ( currentCharacter === '\n' || currentCharacter === '' ) && prevChar !== '\n' && prevChar !== '' ) {
         currentPos -= 1;
     }
 
