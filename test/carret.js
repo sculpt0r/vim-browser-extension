@@ -116,5 +116,16 @@ describe('Carret', function() {
       assert.strictEqual( start, startCarret );
       assert.strictEqual( end, start + 1 );
     } );
+
+    it('[j] doesnt move down if there is no line below', function() {
+      //                   012 3456
+      const initialData = 'abc\ndef';
+      const startCarret = 5;
+
+      const [start, end] = CalculateHorizontal( startCarret, DOWN, initialData );
+
+      assert.strictEqual( start, startCarret );
+      assert.strictEqual( end, start + 1 );
+    } );
   } );
 });

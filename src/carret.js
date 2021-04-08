@@ -44,8 +44,10 @@ function CalculateHorizontal( currentPos, direction, content ) {
     let newPos = currentPos;
 
     if( direction === DOWN ) {
-        newPos = nextLineBreakIndex + distanceFromLineBegin;
-    } else {
+        if ( nextLineBreakIndex !== -1 ) {
+            newPos = nextLineBreakIndex + distanceFromLineBegin;
+        }
+    } else if (direction === UP ) {
         // Look for new line before currentPos
         // Don't want to fine current line '\n' char
         // Want to find '\n' from line above
