@@ -52,7 +52,9 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
         // Don't want to fine current line '\n' char
         // Want to find '\n' from line above
         const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
-        newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
+        if ( doublePrevLineBreakIndex !== -1 ) {
+            newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
+        }
     }
 
     return [ newPos, newPos + 1 ];
