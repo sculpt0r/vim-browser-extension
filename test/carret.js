@@ -105,6 +105,23 @@ describe('Carret', function() {
     } );
   } );
 
+  describe( 'left offset calculation', function() {
+    it( 'returns distance from previous line break with existing line break', function() {
+      //               012 3456
+      const content = 'abc\ndef';
+      const offset = RecalculateLeftOffset( 6, content );
+
+      assert.strictEqual( offset, 2);
+    });
+    it( 'returns distance from the beginning of content if no previous line breaks', function() {
+      //               012 3456
+      const content = 'abc\ndef';
+      const offset = RecalculateLeftOffset( 2, content );
+
+      assert.strictEqual( offset, 2);
+    })
+  } );
+
   describe( 'up \'j\' and down \'k\' keys', function() {
     it('[k] doesnt move up if there is no line above', function() {
       //                   012 3456
