@@ -39,13 +39,13 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
 
     const nextLineBreakIndex = content.indexOf( '\n', currentPos );
     const prevLineBreakIndex = content.lastIndexOf( '\n', currentPos );
-    const distanceFromLineBegin = leftOffset;//currentPos - prevLineBreakIndex;
+    const distanceFromLineBegin = leftOffset;
 
     let newPos = currentPos;
 
     if( direction === DOWN ) {
         if ( nextLineBreakIndex !== -1 ) {
-            newPos = nextLineBreakIndex + distanceFromLineBegin;
+            newPos = nextLineBreakIndex + distanceFromLineBegin + 1;
         }
     } else if (direction === UP ) {
         // Look for new line before currentPos
@@ -54,6 +54,8 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
         const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
         if ( doublePrevLineBreakIndex !== -1 ) {
             newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
+        } else {
+            newPos = leftOffset;
         }
     }
 
