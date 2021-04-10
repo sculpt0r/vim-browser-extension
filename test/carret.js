@@ -204,7 +204,7 @@ describe('Carret', function() {
       assert.strictEqual( end, start + 1 );
     } );
 
-    it( '[j] move to next line even if its only empty newline', function() {
+    it( '[j] move to down line even if its only empty newline', function() {
       //                   012 3 4 567 89
       const initialData = 'abc\n\n\nde\nx';
       const startCarret = 1;
@@ -213,6 +213,18 @@ describe('Carret', function() {
       const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
 
       assert.strictEqual( start, 4 );
+      assert.strictEqual( end, start + 1 );
+    } );
+
+    it( '[k] move to up line even if its only empty newline', function() {
+      //                   012 3 4 567 89
+      const initialData = 'abc\n\n\nde\nx';
+      const startCarret = 7;
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
+
+      const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
+
+      assert.strictEqual( start, 5 );
       assert.strictEqual( end, start + 1 );
     } );
 

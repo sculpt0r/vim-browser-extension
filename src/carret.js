@@ -34,23 +34,24 @@ function InitializeCarret( currentPos, content ){
 }
 
 function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
-    const UP = -1;
-    const DOWN = 1;
-
+    //split content into lines
     let contentLines = content.split( '\n' );
+    //append \n character - since it is line content
     contentLines = contentLines.map(line => line + '\n' );
 
     let counter = -1;
     let carretCounter = 0;
 
+    //mark each line begin, end & length
     const mapedLines = contentLines.map( line => {
-
         const number = ++counter;
         const start = carretCounter;
         const end = start + line.length - 1;
+        // length == 0 means we have empty line
         const length = end - start;
         
         carretCounter = end + 1;
+        
         return {
             number,
             start,
@@ -59,21 +60,19 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
         };
     });
 
-
-    const myLineNr = mapedLines
-                    .find( line => currentPos >= line.start && currentPos <= line.end)
-                    .number;
-
+    const myLineNr = mapedLines.find( line => currentPos >= line.start && currentPos <= line.end).number;
 
     let newPos = currentPos;
 
-    const foundLine = mapedLines.find( line => line.number === myLineNr + direction);
+    const targetLine = mapedLines.find( line => line.number === myLineNr + direction);
 
-    if(foundLine){
-        newPos =  foundLine.start + ( Math.min(leftOffset, foundLine.length) - 1 );
-        if ( foundLine.length === 0 ) {newPos ++;}
+    if( targetLine ){
+        newPos =  targetLine.start + ( Math.min( leftOffset, targetLine.length ) - 1 );
+        //Don't skip 0-length lines - which means empty lines with single '\n' character
+        if ( targetLine.length === 0 ) {
+            newPos ++;
+        }
     }
-    
 
     return [ newPos, newPos + 1 ];
 }
