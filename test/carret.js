@@ -111,8 +111,17 @@ describe('Carret', function() {
       const content = 'abc\ndef';
       const offset = RecalculateLeftOffset( 6, content );
 
-      assert.strictEqual( offset, 2);
+      assert.strictEqual( offset, 3);
     });
+
+    it( 'returns distance from previous line break with existing line break in larger sample of text', function() {
+      //               012 3456 7890 1234
+      const content = 'abc\ndef\nghj\nzxc';
+      const offset = RecalculateLeftOffset( 14, content );
+
+      assert.strictEqual( offset, 3);
+    });
+	  
     it( 'returns distance from the beginning of content if no previous line breaks', function() {
       //               012 3456
       const content = 'abc\ndef';
@@ -148,31 +157,31 @@ describe('Carret', function() {
     } );
 
     it('[j] move down with same offset from left with proper line length', function() {
-      //                   012 3456
-      const initialData = 'abc\ndef';
-      const startCarret = 2;
+      //                   012 3456 78910
+      const initialData = 'abc\ndef\nghj';
+      const startCarret = 5;
       const leftOffset = RecalculateLeftOffset( startCarret, initialData );
 
       const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
 
-      assert.strictEqual( start, 6 );
+      assert.strictEqual( start, 9 );
       assert.strictEqual( end, start + 1 );
     } );
 
     it('[k] move up with same offset from left with proper line length', function() {
-      //                   012 3456
-      const initialData = 'abc\ndef';
-      const startCarret = 6;
+      //                   012 3456 78910
+      const initialData = 'abc\ndef\nghj';
+      const startCarret = 9;
       const leftOffset = RecalculateLeftOffset( startCarret, initialData );
 
       const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
 
-      assert.strictEqual( start, 2 );
+      assert.strictEqual( start, 5 );
       assert.strictEqual( end, start + 1 );
     } );
 
     it('[k] move up with most possible offset if line is shorter', function() {
-      //                   012 34
+      //                   0 1234
       const initialData = 'a\ndef';
       const startCarret = 4;
       const leftOffset = RecalculateLeftOffset( startCarret, initialData );
@@ -180,6 +189,18 @@ describe('Carret', function() {
       const [start, end] = CalculateHorizontal( startCarret, UP, leftOffset, initialData );
 
       assert.strictEqual( start, 0 );
+      assert.strictEqual( end, start + 1 );
+    } );
+
+    it('[j] move down with most possible offset if line is shorter', function() {
+      //                   012 34
+      const initialData = 'abc\nd';
+      const startCarret = 2;
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
+
+      const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
+
+      assert.strictEqual( start, 4 );
       assert.strictEqual( end, start + 1 );
     } );
 

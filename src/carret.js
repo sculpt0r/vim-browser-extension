@@ -37,25 +37,51 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
     const UP = -1;
     const DOWN = 1;
 
-    const nextLineBreakIndex = content.indexOf( '\n', currentPos );
-    const prevLineBreakIndex = content.lastIndexOf( '\n', currentPos );
-    const distanceFromLineBegin = leftOffset;
+    let contentLines = content.split( '\n' );
+    contentLines = contentLines.map(line => line + '\n' );
+
+    let counter = -1;
+    let carretCounter = 0;
+
+
+    const mapedLines = contentLines.map( line => {
+
+        const number = ++counter;
+        const start = carretCounter;
+        const end = start + line.length - 1;
+        const length = end - start;
+        
+        carretCounter = end + 1;
+        return {
+            number,
+            start,
+            end,
+            length
+        };
+    });
+
+
+    const myLineNr = mapedLines
+                    .find( line => currentPos >= line.start && currentPos <= line.end)
+                    .number;
+
 
     let newPos = currentPos;
 
     if( direction === DOWN ) {
-        if ( nextLineBreakIndex !== -1 ) {
-            newPos = nextLineBreakIndex + distanceFromLineBegin + 1;
+        const nextLine = mapedLines
+                            .find( line => line.number === myLineNr + 1);
+        if( nextLine ){
+            //line start is already valid index so we have to minus one
+            newPos = nextLine.start + ( Math.min(leftOffset, nextLine.length) - 1 );
         }
+
     } else if (direction === UP ) {
-        // Look for new line before currentPos
-        // Don't want to fine current line '\n' char
-        // Want to find '\n' from line above
-        const doublePrevLineBreakIndex = content.lastIndexOf('\n' , prevLineBreakIndex-1);
-        if ( doublePrevLineBreakIndex !== -1 ) {
-            newPos = doublePrevLineBreakIndex + distanceFromLineBegin;
-        } else {
-            newPos = leftOffset;
+        const prevLine = mapedLines
+        .find( line => line.number === myLineNr - 1);
+
+        if( prevLine ){
+            newPos = prevLine.start + ( Math.min(leftOffset, prevLine.length) - 1 );
         }
     }
 
@@ -64,7 +90,7 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
 
 function RecalculateLeftOffset( pos, content ) {
     const prevLineBreakDist = content.lastIndexOf( '\n', pos );
-    return prevLineBreakDist !== -1 ? prevLineBreakDist - 1 : pos;
+    return prevLineBreakDist !== -1 ? pos - prevLineBreakDist : pos;
 }
 
 if( typeof module !== 'undefined') {
