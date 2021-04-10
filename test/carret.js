@@ -204,7 +204,17 @@ describe('Carret', function() {
       assert.strictEqual( end, start + 1 );
     } );
 
-    //jk locking after few types.... :/ - mainly if jump from line to line and appears at new line character
+    it( '[j] move to next line even if its only empty newline', function() {
+      //                   012 3 4 567 89
+      const initialData = 'abc\n\n\nde\nx';
+      const startCarret = 1;
+      const leftOffset = RecalculateLeftOffset( startCarret, initialData );
+
+      const [start, end] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
+
+      assert.strictEqual( start, 4 );
+      assert.strictEqual( end, start + 1 );
+    } );
 
   } );
 });

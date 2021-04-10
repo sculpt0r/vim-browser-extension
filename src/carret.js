@@ -43,7 +43,6 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
     let counter = -1;
     let carretCounter = 0;
 
-
     const mapedLines = contentLines.map( line => {
 
         const number = ++counter;
@@ -69,9 +68,10 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
     let newPos = currentPos;
 
     const foundLine = mapedLines.find( line => line.number === myLineNr + direction);
-    
+
     if(foundLine){
         newPos =  foundLine.start + ( Math.min(leftOffset, foundLine.length) - 1 );
+        if ( foundLine.length === 0 ) {newPos ++;}
     }
     
 
