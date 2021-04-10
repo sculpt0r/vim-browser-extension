@@ -68,22 +68,12 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
 
     let newPos = currentPos;
 
-    if( direction === DOWN ) {
-        const nextLine = mapedLines
-                            .find( line => line.number === myLineNr + 1);
-        if( nextLine ){
-            //line start is already valid index so we have to minus one
-            newPos = nextLine.start + ( Math.min(leftOffset, nextLine.length) - 1 );
-        }
-
-    } else if (direction === UP ) {
-        const prevLine = mapedLines
-        .find( line => line.number === myLineNr - 1);
-
-        if( prevLine ){
-            newPos = prevLine.start + ( Math.min(leftOffset, prevLine.length) - 1 );
-        }
+    const foundLine = mapedLines.find( line => line.number === myLineNr + direction);
+    
+    if(foundLine){
+        newPos =  foundLine.start + ( Math.min(leftOffset, foundLine.length) - 1 );
     }
+    
 
     return [ newPos, newPos + 1 ];
 }
