@@ -31,9 +31,15 @@ class ModeManager {
 
 }
 class InsertMode extends Mode {
-    constructor() {
+    constructor( moveAfter ) {
         super();
-        document.activeElement.selectionEnd = document.activeElement.selectionStart;
+        let currentPos = document.activeElement.selectionStart;
+        if ( moveAfter ) {
+            currentPos++;
+        }
+        
+        document.activeElement.selectionEnd = document.activeElement.selectionStart = currentPos;
+
         console.log('constructor insertu');
     }
 
@@ -148,7 +154,7 @@ function HandlePluginToggle(e) {
 		}
 
 		if ( modeMgr.currentMode instanceof NavigationMode && ( e.key === 'i' || e.key === 'a' ) ) {
-            modeMgr.changeMode(new InsertMode());
+            modeMgr.changeMode( new InsertMode( e.key === 'a' ) );
 			e.preventDefault();
 		}
 	}
