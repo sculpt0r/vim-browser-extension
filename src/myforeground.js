@@ -33,7 +33,10 @@ class ModeManager {
 class InsertMode extends Mode {
 	constructor( moveAfter ) {
 		super();
-		let currentPos = document.activeElement.selectionStart;
+		if(!getCarretStart(document.activeElement)){
+			return;
+		}
+		let currentPos = getCarretStart( document.activeElement );
 		if ( moveAfter ) {
 			currentPos++;
 		}
@@ -62,6 +65,9 @@ class NavigationMode extends Mode {
 	}
 
 	activate() {
+		if(!getCarretStart(document.activeElement)){
+			return;
+		}
 		super.activate();
 		// console.log('activate nav mode');
 
@@ -69,14 +75,14 @@ class NavigationMode extends Mode {
 
 		document.addEventListener( 'keydown', this.keyListener );
 
-		let pos = document.activeElement.selectionStart;
+		let pos = getCarretStart( document.activeElement );
 		const content = getContent( document.activeElement );
 
 		this.leftOffset = RecalculateLeftOffset( pos, content );
 
 		const [ start, end ] = InitializeCarret( pos, content );
-		document.activeElement.selectionStart = start;
-		document.activeElement.selectionEnd = end;
+
+		setSelection(start, end, document.activeElement);
 	}
 
 	deactivate() {
@@ -90,7 +96,7 @@ class NavigationMode extends Mode {
 		if( ['h','j','k','l'].includes( e.key ) ) {
 			let start, end = -1;
 			const content = getContent(document.activeElement);
-			const pos = document.activeElement.selectionStart;
+			const pos = getCarretStart( document.activeElement );
 
 			if ( e.key === 'h' ) {
 				[ start, end ] = MoveCarret( pos, pos - 1, content );
@@ -110,8 +116,7 @@ class NavigationMode extends Mode {
 				[ start, end ] = CalculateHorizontal( pos, 1, this.leftOffset, content );
 			}
 			if ( start > -1 && end > -1 ) {
-				document.activeElement.selectionStart = start;
-				document.activeElement.selectionEnd = end;
+				setSelection(start, end, document.activeElement);
 			}
 		}
 		e.preventDefault();
@@ -127,7 +132,8 @@ class EmptyMode extends Mode {
 	activate() {
 		super.activate();
 		// console.log('active empty');
-		document.activeElement.selectionEnd = document.activeElement.selectionStart;
+		const pos = getCarretStart( document.activeElement );
+		setSelection( pos, pos, document.activeElement );
 	}
 }
 const modeMgr  = new ModeManager();
