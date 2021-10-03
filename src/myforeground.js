@@ -143,9 +143,9 @@ document.addEventListener( 'keydown', HandlePluginToggle );
 function HandlePluginToggle(e) {
 	if(
 		// Alt + v
-		( e.key === 'v' && e.altKey ) ||
-		// On mac: Cmd key + `
-		( e.key === 'IntlBackslash' && ( e.key === 'Meta' && e.code === 'MetaLeft' ) )
+		( e.altKey && e.key === 'v' ) ||
+		// On mac: Cmd key + option key
+		( e.altKey && ( e.key === 'Meta' && e.code === 'MetaLeft' ) )
 	) {
 
 		if( modeMgr.anyMode() ) {
