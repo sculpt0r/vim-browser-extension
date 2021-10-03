@@ -141,7 +141,12 @@ const modeMgr  = new ModeManager();
 document.addEventListener( 'keydown', HandlePluginToggle );
 
 function HandlePluginToggle(e) {
-	if( e.key === 'v' && e.altKey ) {
+	if(
+		// Alt + v
+		( e.key === 'v' && e.altKey ) ||
+		// On mac: Cmd key + `
+		( e.key === 'IntlBackslash' && ( e.key === 'Meta' && e.code === 'MetaLeft' ) )
+	) {
 
 		if( modeMgr.anyMode() ) {
 			modeMgr.changeMode(new EmptyMode());
