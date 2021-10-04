@@ -3,14 +3,14 @@
   "version": "1.0.1",
   "description": "Browser extension to allow vim keys for text editing.",
   "main": "myforeground.js",
-  "dependencies": {},
   "devDependencies": {
     "archiver": "^5.3.0",
     "javascript-obfuscator": "^2.11.0",
-    "mocha": "^8.3.2"
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "nyc mocha",
     "obfuscate": "javascript-obfuscator ./src --output ./src-obfuscated",
     "zip": "node zip.js",
     "release": "npm run zip"
