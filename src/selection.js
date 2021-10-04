@@ -1,4 +1,7 @@
 function setSelection( start, end, element ) {
+	if ( start === -1 || end === -1 ) {
+		return;
+	}
 
 	if( element.tagName === 'TEXTAREA' ) {
 		element.selectionStart = start;

@@ -1,6 +1,13 @@
 
+/**
+ * Verify and calculate new carret position if it is allowed to moved out of single line
+ * @param {number} currentPos Index of current carret position
+ * @param {number} wantedPosition Index of position, that we want to move carret
+ * @param {string} content Content that is used in this calculation
+ * @returns {number[]} New carret start position and end position (vim carret is one character wide)
+ */
 function MoveCarret( currentPos, wantedPosition, content ) {
-    //     let p = document.activeElement; 
+    //     let p = document.activeElement;
     // let range = new Range();
     //   range.setStart(p.firstChild, 0);
     //   range.setEnd(p.firstChild, 2);
@@ -24,7 +31,7 @@ function InitializeCarret( currentPos, content ){
     const currentCharacter = content.charAt( currentPos );
     const prevChar = content.charAt( currentPos - 1 );
     // console.log({currentPos, currentCharacter});
-    
+
     //Take previous character if current is new line
     if( ( currentCharacter === '\n' || currentCharacter === '' ) && prevChar !== '\n' && prevChar !== '' ) {
         currentPos -= 1;
@@ -44,16 +51,16 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
 
     //mark each line begin, end & length
     const mapedLines = contentLines.map( line => {
-        const number = ++counter;
+        const lineNumber = ++counter;
         const start = carretCounter;
         const end = start + line.length - 1;
         // length == 0 means we have empty line
         const length = end - start;
-        
+
         carretCounter = end + 1;
-        
+
         return {
-            number,
+            number: lineNumber,
             start,
             end,
             length

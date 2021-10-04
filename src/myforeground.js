@@ -93,10 +93,18 @@ class NavigationMode extends Mode {
 	}
 
 	handleKeys( e ) {
-		if( ['h','j','k','l'].includes( e.key ) ) {
-			let start, end = -1;
-			const content = getContent(document.activeElement);
-			const pos = getCarretStart( document.activeElement );
+		const content = getContent(document.activeElement);
+		const pos = getCarretStart( document.activeElement );
+		let start, end = -1;
+
+		if( e.key === 'e' ){
+			// Move carrate to the end of next word
+			const endOfWordPosition = FindEndOfWord( pos, content );
+			start = endOfWordPosition;
+			end = start + 1;
+		}
+
+		if( [ 'h', 'j', 'k', 'l' ].includes( e.key ) ) {
 
 			if ( e.key === 'h' ) {
 				[ start, end ] = MoveCarret( pos, pos - 1, content );
@@ -115,10 +123,10 @@ class NavigationMode extends Mode {
 			if ( e.key === 'j' ) {
 				[ start, end ] = CalculateHorizontal( pos, 1, this.leftOffset, content );
 			}
-			if ( start > -1 && end > -1 ) {
-				setSelection(start, end, document.activeElement);
-			}
 		}
+
+		setSelection( start, end, document.activeElement );
+
 		e.preventDefault();
 	}
 }
@@ -141,6 +149,7 @@ const modeMgr  = new ModeManager();
 document.addEventListener( 'keydown', HandlePluginToggle );
 
 function HandlePluginToggle(e) {
+	console.log(e)
 	if(
 		// Alt + v
 		( e.altKey && e.key === 'v' ) ||
