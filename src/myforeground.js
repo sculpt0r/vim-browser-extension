@@ -149,7 +149,6 @@ const modeMgr  = new ModeManager();
 document.addEventListener( 'keydown', HandlePluginToggle );
 
 function HandlePluginToggle(e) {
-	console.log(e)
 	if(
 		// Alt + v
 		( e.altKey && e.key === 'v' ) ||
