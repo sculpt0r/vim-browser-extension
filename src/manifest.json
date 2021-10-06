@@ -1,15 +1,14 @@
 {
 	"name": "VIM typer",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"description": "Use VIM keys in browser",
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"content_scripts": [
 		{
-			"matches": [ "activeTab" ],
-			"js": [ "./selection.js", "./carret.js", "./myforeground.js" ],
+			"matches": [ "https://*/*",  "http://*/*", "file://*/*" ],
+			"js": [ "./selection.js", "content-helper.js", "./carret.js", "./myforeground.js" ],
 			"run_at": "document_start",
 			"all_frames": true
 		}
 	]
-
 }
