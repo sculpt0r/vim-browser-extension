@@ -1,6 +1,9 @@
 # vim-browser-extension
 Browser extension to allow vim keys for text editing.
 
+# why it is different than other vim plugins
+Other famous plugins use vim keys to navigate in browser / web page. This plugin allows to use vim keys in text editing inputs!
+
 # enable vim keys
 Plugins functionality can be toggled with special key combination:
 - `alt` + `v` on windows / linux
