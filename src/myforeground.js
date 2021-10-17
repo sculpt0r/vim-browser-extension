@@ -95,6 +95,7 @@ class NavigationMode extends Mode {
 	handleKeys( e ) {
 		const content = getContent(document.activeElement);
 		const pos = getCarretStart( document.activeElement );
+		this.leftOffset = RecalculateLeftOffset( pos, content );
 		let start, end = -1;
 
 		if( e.key === 'e' ){
