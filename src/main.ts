@@ -9,11 +9,13 @@ class Mode {
 	}
 }
 class ModeManager {
+	currentMode: Mode;
+
 	constructor() {
 		this.currentMode = new EmptyMode();
 	}
 
-	changeMode( newMode ) {
+	changeMode( newMode: Mode ) {
 		if ( this.currentMode.constructor === newMode.constructor ) {
 			return;
 		}
@@ -60,6 +62,9 @@ class InsertMode extends Mode {
 }
 
 class NavigationMode extends Mode {
+	keyListener;
+	leftOffset;
+
 	constructor() {
 		super();
 		// console.log('navmode constructor');
