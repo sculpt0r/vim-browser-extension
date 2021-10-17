@@ -30,4 +30,4 @@ function getCarretStart( element ) {
 	}
 }
 
-export { getCarretStart, setSelection }
+export { getCarretStart, setSelection };
