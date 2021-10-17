@@ -4,17 +4,15 @@ import { InsertMode } from './insert-mode';
 import { EmptyMode } from './empty-mode';
 
 const modeMgr  = new ModeManager();
+let indicator;
 
-document.addEventListener( 'keydown', HandlePluginToggle );
-
-function HandlePluginToggle( e ) {
+function HandlePluginToggle( e: KeyboardEvent ): void {
 	if (
 		// Alt + v
 		( e.altKey && e.key === 'v' ) ||
 		// On mac: Cmd key + option key
 		( e.altKey && ( e.key === 'Meta' && e.code === 'MetaLeft' ) )
 	) {
-
 		if ( modeMgr.anyMode() ) {
 			modeMgr.changeMode( new EmptyMode() );
 			setIndicator( false );
@@ -38,7 +36,6 @@ function HandlePluginToggle( e ) {
 	}
 }
 
-let indicator;
 function createIndicator() {
 	indicator = document.createElement( 'div' );
 	indicator.style.width = indicator.style.height = '5px';
@@ -48,9 +45,11 @@ function createIndicator() {
 	document.body.appendChild( indicator );
 }
 
-function setIndicator( isActive ) {
+function setIndicator( isActive: boolean ) {
 	indicator.style.background = isActive ? 'green' : 'red';
 }
+
+document.addEventListener( 'keydown', HandlePluginToggle );
 
 window.addEventListener( 'DOMContentLoaded', function( event ) {
 	createIndicator();

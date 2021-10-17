@@ -5,7 +5,7 @@ import { Mode } from './mode';
 
 class NavigationMode extends Mode {
 	keyListener;
-	leftOffset;
+	leftOffset: number;
 
 	constructor() {
 		super();
@@ -23,8 +23,8 @@ class NavigationMode extends Mode {
 
 		document.addEventListener( 'keydown', this.keyListener );
 
-		const pos = getCarretStart( document.activeElement );
-		const content = getContent( document.activeElement );
+		const pos : number = getCarretStart( document.activeElement );
+		const content = this.getContent( document.activeElement );
 
 		this.leftOffset = RecalculateLeftOffset( pos, content );
 
@@ -41,7 +41,7 @@ class NavigationMode extends Mode {
 	}
 
 	handleKeys( e ) {
-		const content = getContent( document.activeElement );
+		const content = this.getContent( document.activeElement );
 		const pos = getCarretStart( document.activeElement );
 		this.leftOffset = RecalculateLeftOffset( pos, content );
 		let start, end = -1;
@@ -78,13 +78,16 @@ class NavigationMode extends Mode {
 
 		e.preventDefault();
 	}
-}
-function getContent( element ) {
-	if ( element.tagName === 'TEXTAREA' ) {
-		return element.value;
-	} else {
-		return element.innerHTML;
+
+	getContent( element ) {
+		if ( element.tagName === 'TEXTAREA' ) {
+			return element.value;
+		} else {
+			return element.innerHTML;
+		}
 	}
 }
+
+
 
 export { NavigationMode };

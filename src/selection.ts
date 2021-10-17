@@ -1,4 +1,4 @@
-function setSelection( start, end, element ) {
+function setSelection( start : number, end : number, element ) : void {
 	if ( start === -1 || end === -1 ) {
 		return;
 	}
@@ -8,7 +8,7 @@ function setSelection( start, end, element ) {
 		element.selectionEnd = end;
 	} else {
 		return;
-		let range = new Range();
+		const range = new Range();
 
 		range.setStart( element.firstChild, start );
 		range.setEnd( element.firstChild, end );
@@ -18,7 +18,7 @@ function setSelection( start, end, element ) {
 	}
 }
 
-function getCarretStart( element ) {
+function getCarretStart( element ) : number {
 	if ( element.tagName === 'TEXTAREA' ) {
 		return element.selectionStart;
 	} else {

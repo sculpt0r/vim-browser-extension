@@ -17,6 +17,12 @@
 		"@typescript-eslint/no-explicit-any": [
 			"warn"
 		],
+		"@typescript-eslint/type-annotation-spacing": [
+			"warn", {
+				"before": true,
+				"after": true
+			}
+		],
 		"sourceType": 1,
 		"space-before-blocks": "warn",
 		"comma-spacing": [

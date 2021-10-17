@@ -1,4 +1,3 @@
-
 /**
  * Verify and calculate new carret position if it is allowed to moved out of single line
  * @param {number} currentPos Index of current carret position
