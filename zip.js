@@ -42,7 +42,7 @@ archive.pipe(output);
 
 // archive.file('src/manifest.json', { name: 'manifest.json' });
 
-archive.directory('src/', false);
+archive.directory('src_js/', false);
 
 // finalize the archive (ie we are done appending files but streams have to finish yet)
 // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand

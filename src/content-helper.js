@@ -8,6 +8,4 @@ function FindEndOfWord( currentPosition, content ) {
 	return ( nextSpaceIndex - 1 ) + currentPosition;
 }
 
-if ( typeof module !== 'undefined' ) {
-	module.exports = { FindEndOfWord };
-}
+export { FindEndOfWord };

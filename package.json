@@ -19,8 +19,10 @@
   "scripts": {
     "test": "nyc mocha",
     "obfuscate": "javascript-obfuscator ./src --output ./src-obfuscated",
+	"build": "npx rollup --config",
+	"build:watch": "npx rollup --config --watch",
     "zip": "node zip.js",
-    "release": "npm run zip"
+    "release": "npm run build || npm run zip"
   },
   "repository": {
     "type": "git",

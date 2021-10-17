@@ -1,5 +1,7 @@
 import { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset } from "./carret";
 import { getCarretStart, setSelection } from "./selection";
+import { FindEndOfWord } from "./content-helper";
+
 class Mode {
 	deactivate() {
 
