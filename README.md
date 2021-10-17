@@ -20,3 +20,7 @@ Currently `vim-typer` supports:
 - more are planned
 
 Please, report any malfunctions to the bug@vim-typer.com
+
+# Development
+
+work with `src` and `tests` folder. Everything is bundled to the `src_js` directory with rollup `npx rollup --config`

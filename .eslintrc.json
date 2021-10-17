@@ -12,6 +12,7 @@
     },
     "plugins": [],
     "rules": {
+		"sourceType": "module",
 		"space-before-blocks": "warn",
 		"comma-spacing": [
 			"warn",

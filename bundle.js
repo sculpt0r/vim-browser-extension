@@ -1,5 +1,6 @@
-import { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset } from "./carret";
-import { getCarretStart, setSelection } from "./selection";
+'use strict';
+
+// console.log('VIM typer!');
 class Mode {
 	deactivate() {
 

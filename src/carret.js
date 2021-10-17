@@ -89,6 +89,4 @@ function RecalculateLeftOffset( pos, content ) {
 	return prevLineBreakDist !== -1 ? pos - prevLineBreakDist : pos;
 }
 
-if ( typeof module !== 'undefined' ) {
-	module.exports = { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset };
-}
+export { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset };

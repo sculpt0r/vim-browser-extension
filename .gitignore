@@ -1,4 +1,5 @@
 node_modules
 src-obfuscated
+src_js/
 dist
 .nyc_output/

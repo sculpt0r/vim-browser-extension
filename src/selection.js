@@ -29,3 +29,5 @@ function getCarretStart( element ) {
 		return selRange.startOffset;
 	}
 }
+
+export { getCarretStart, setSelection }
