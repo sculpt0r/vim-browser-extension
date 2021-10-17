@@ -3,7 +3,7 @@ function setSelection( start, end, element ) {
 		return;
 	}
 
-	if( element.tagName === 'TEXTAREA' ) {
+	if ( element.tagName === 'TEXTAREA' ) {
 		element.selectionStart = start;
 		element.selectionEnd = end;
 	} else {
@@ -19,12 +19,12 @@ function setSelection( start, end, element ) {
 }
 
 function getCarretStart( element ) {
-	if( element.tagName === 'TEXTAREA' ) {
+	if ( element.tagName === 'TEXTAREA' ) {
 		return element.selectionStart;
 	} else {
 		return null;
 		const selObj = window.getSelection();
-		const selRange = selObj.getRangeAt(0);
+		const selRange = selObj.getRangeAt( 0 );
 
 		return selRange.startOffset;
 	}
