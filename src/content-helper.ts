@@ -1,4 +1,6 @@
-function FindEndOfWord( currentPosition, content ) {
+
+
+function FindEndOfWord( currentPosition : number, content : string ) : number {
 	// przetnij content w miejscu currentPosition
 	const remainingContent = content.slice( currentPosition );
 	//w pozostałej części szukaj z regexpem;
