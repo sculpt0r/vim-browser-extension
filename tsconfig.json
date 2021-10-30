@@ -5,8 +5,8 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"target": "ES6",
+		"moduleResolution": "Node"
 	},
 	"include": [ "*", "**/*" ],
-	"exclude": [ "node_modules", "src" ]
-
+	"exclude": [ "node_modules", "src" ],
 }
