@@ -1,7 +1,7 @@
 
 
 function FindEndOfWord( currentPosition : number, content : string ) : number {
-	const wordBreakRegEx = /[^\s]{1}(\s|$)/g;
+	const wordBreakRegEx = /[^\s]{1}(\s|$|\n)/g;
 	wordBreakRegEx.lastIndex = currentPosition;
 
 	wordBreakRegEx.test( content );

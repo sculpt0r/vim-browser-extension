@@ -5,7 +5,7 @@ import { Mode } from './mode';
 
 class NavigationMode extends Mode {
 	keyListener;
-	leftOffset: number;
+	leftOffset : number;
 
 	constructor() {
 		super();
@@ -49,6 +49,8 @@ class NavigationMode extends Mode {
 		if ( e.key === 'e' ) {
 			// Move carrate to the end of next word
 			const endOfWordPosition = FindEndOfWord( pos, content );
+			console.log( endOfWordPosition );
+
 			start = endOfWordPosition;
 			end = start + 1;
 		}
