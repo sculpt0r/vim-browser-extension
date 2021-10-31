@@ -4,6 +4,8 @@
   "description": "Browser extension to allow vim keys for text editing.",
   "main": "myforeground.js",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -21,8 +23,8 @@
   "scripts": {
     "test": "nyc ava",
     "obfuscate": "javascript-obfuscator ./src --output ./src-obfuscated",
-    "build": "npx rollup --config",
-    "build:watch": "npx rollup --config --watch",
+    "build": "npx rollup --config rollup.config.js --configPlugin typescript",
+    "build:watch": "npx rollup --config rollup.config.js --configPlugin typescript --watch",
     "zip": "node zip.js",
     "release": "npm run build || npm run zip"
   },

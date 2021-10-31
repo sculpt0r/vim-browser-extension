@@ -1,4 +1,4 @@
-import copy from 'rollup-plugin-copy'
+import copy from 'rollup-plugin-copy';
 import typescript from '@rollup/plugin-typescript';
 
 // rollup.config.js
@@ -7,15 +7,15 @@ export default {
 		'src/main.ts'
 	],
 	output: {
-	  file: 'src_js/plugin.js',
-	  format: 'cjs'
+		file: 'src_js/plugin.js',
+		format: 'cjs'
 	},
 	plugins: [
-		copy({
-		  targets: [
-			{ src: 'src/manifest.json', dest: 'src_js/' },
-		  ]
-		}),
+		copy( {
+			targets: [
+				{ src: 'src/manifest.json', dest: 'src_js/' },
+			]
+		} ),
 		typescript()
-	  ]
+	]
 };
