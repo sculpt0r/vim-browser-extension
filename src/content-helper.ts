@@ -1,13 +1,20 @@
 
 
 function FindEndOfWord( currentPosition : number, content : string ) : number {
-	// przetnij content w miejscu currentPosition
-	const remainingContent = content.slice( currentPosition );
-	//w pozostałej części szukaj z regexpem;
-	console.log( `'${remainingContent}'` );
-	const nextSpaceIndex =  remainingContent.search( /[\s]/g );
-	// also add number of characters that was cutted away
-	return ( nextSpaceIndex - 1 ) + currentPosition;
+	const wordBreakRegEx = /[^\s]{1}(\s|$)/g;
+	wordBreakRegEx.lastIndex = currentPosition;
+
+	wordBreakRegEx.test( content );
+	if ( wordBreakRegEx.lastIndex-2 === currentPosition ) {
+		//end of line dont bump index so much
+		return FindEndOfWord( currentPosition +1, content ) + 1;
+	}
+	// if ( wordBreakRegEx.lastIndex - 2 === currentPosition ) {
+
+	// 	return FindEndOfWord( currentPosition+2, content );
+	// }
+
+	return wordBreakRegEx.lastIndex - 2;
 }
 
 export { FindEndOfWord };
