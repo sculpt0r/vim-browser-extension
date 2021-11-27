@@ -3,3 +3,6 @@ src-obfuscated
 src_js/
 dist
 .nyc_output/
+
+# stryker temp files
+.stryker-tmp
