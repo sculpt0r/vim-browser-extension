@@ -28,5 +28,6 @@ jobs:
       # Runs a single command using the runners shell
       - name: Npm I && Stryker run
         run: |
+          npm i npm@7 -g
           npm i
           npx stryker run
