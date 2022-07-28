@@ -6,17 +6,20 @@ import { EmptyMode } from './empty-mode';
 const modeMgr  = new ModeManager();
 let indicator;
 
-function HandlePluginToggle( e: KeyboardEvent ): void {
+function HandlePluginToggle( e : KeyboardEvent ) : void {
 	if (
-		// Alt + v
-		( e.altKey && e.key === 'v' ) ||
-		// On mac: Cmd key + option key
-		( e.altKey && ( e.key === 'Meta' && e.code === 'MetaLeft' ) )
+		isEditableSupported() &&
+		(
+			// Alt + v
+			( e.altKey && e.key === 'v' ) ||
+			// On mac: left Cmd key + option key
+			( e.altKey && ( e.key === 'Meta' && e.code === 'MetaLeft' ) )
+		)
 	) {
 		if ( modeMgr.anyMode() ) {
 			modeMgr.changeMode( new EmptyMode() );
 			setIndicator( false );
-			//unpin all listeners etc....
+			//unpin all listeners etc...
 		} else {
 			modeMgr.changeMode( new NavigationMode() );
 			setIndicator( true );
@@ -36,7 +39,11 @@ function HandlePluginToggle( e: KeyboardEvent ): void {
 	}
 }
 
-function createIndicator() {
+function isEditableSupported() : boolean {
+	return document.activeElement.tagName === 'TEXTAREA';
+}
+
+function createIndicator() : void {
 	indicator = document.createElement( 'div' );
 	indicator.style.width = indicator.style.height = '5px';
 	indicator.style.position = 'fixed';
@@ -45,7 +52,7 @@ function createIndicator() {
 	document.body.appendChild( indicator );
 }
 
-function setIndicator( isActive: boolean ) {
+function setIndicator( isActive : boolean ) {
 	indicator.style.background = isActive ? 'green' : 'red';
 }
 
