@@ -32,4 +32,5 @@ jobs:
       - name: Npm I && run test
         run: |
           npm i
+          npm run build
           npm run test

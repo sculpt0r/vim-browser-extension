@@ -1,3 +1,5 @@
+[![CI - test](https://github.com/sculpt0r/vim-browser-extension/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/sculpt0r/vim-browser-extension/actions/workflows/test.yml)
+
 # vim-browser-extension
 Browser extension to allow vim keys for text editing.
 
