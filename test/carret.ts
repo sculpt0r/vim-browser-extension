@@ -159,6 +159,18 @@ test( '[j] doesnt move down if there is no line below', t => {
 	t.deepEqual( end, start + 1 );
 } );
 
+test( '[j] move down with same offset from left with proper line length from the first line', t => {
+	//                   012 3456 78910
+	const initialData = 'abc\ndef\nghj';
+	const startCarret = 1;
+	const leftOffset = RecalculateLeftOffset( startCarret, initialData );
+
+	const [ start, end ] = CalculateHorizontal( startCarret, DOWN, leftOffset, initialData );
+
+	t.deepEqual( start, 5 );
+	t.deepEqual( end, start + 1 );
+} );
+
 test( '[j] move down with same offset from left with proper line length', t => {
 	//                   012 3456 78910
 	const initialData = 'abc\ndef\nghj';
