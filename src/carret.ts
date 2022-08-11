@@ -39,7 +39,18 @@ function InitializeCarret( currentPos, content ) {
 	return [ currentPos, currentPos + 1 ];
 }
 
-function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
+const enum DIRECTION {
+	UP = 1,
+	DOWN = -1
+}
+
+function CalculateHorizontal(
+	currentPos : number,
+	direction : DIRECTION,
+	leftOffset : number,
+	content : string
+) : [ number, number ] {
+
 	//split content into lines
 	let contentLines = content.split( '\n' );
 	//append \n character - since it is line content
@@ -71,21 +82,28 @@ function CalculateHorizontal( currentPos, direction, leftOffset, content ) {
 	let newPos = currentPos;
 
 	const targetLine = mapedLines.find( line => line.number === myLineNr + direction );
-
 	if ( targetLine ) {
-		newPos =  targetLine.start + ( Math.min( leftOffset, targetLine.length ) - 1 );
-		//Don't skip 0-length lines - which means empty lines with single '\n' character
-		if ( targetLine.length === 0 ) {
-			newPos ++;
-		}
+		// Need to put carret at last character not after it
+		const targetLineOffset = targetLine.length - 1 < 0 ? 0 : targetLine.length - 1;
+		const allowedOffset = Math.min( leftOffset, targetLineOffset );
+
+		newPos = targetLine.start + allowedOffset;// - newLineCharMod;
 	}
 
 	return [ newPos, newPos + 1 ];
 }
 
-function RecalculateLeftOffset( pos, content ) {
-	const prevLineBreakDist = content.lastIndexOf( '\n', pos );
-	return prevLineBreakDist !== -1 ? pos - prevLineBreakDist : pos;
+function RecalculateLeftOffset( pos : number, content : string ) : number {
+	const prevLineBreakCharPos = content.lastIndexOf( '\n', pos );
+
+	//
+	// | 0 | 1 | 2 |  3 | 4 | 5 | 6 |
+	// | a | b | c | \n | d | e | f |
+	// 0   1   2   3    4   5   6   7
+
+	// offset is a distance from the nearest previous new line character
+	//e.g. pos 4 has 0 ofset
+	return prevLineBreakCharPos !== -1 ? ( pos - prevLineBreakCharPos ) - 1 : pos;
 }
 
-export { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset };
+export { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset, DIRECTION };
