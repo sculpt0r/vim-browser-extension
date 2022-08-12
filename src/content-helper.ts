@@ -33,4 +33,4 @@ function FindBeginOfNextWord( currentPosition : number, content : string ) : num
 		currentPosition : wordBreakRegEx.lastIndex;
 	return closesEnd;
 }
-export { FindEndOfWord };
+export { FindEndOfWord, FindBeginOfNextWord };

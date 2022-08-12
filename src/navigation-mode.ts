@@ -1,6 +1,6 @@
 import { MoveCarret, InitializeCarret, CalculateHorizontal, RecalculateLeftOffset } from './carret';
 import { getCarretStart, setSelection } from './selection';
-import { FindEndOfWord } from './content-helper';
+import { FindBeginOfNextWord, FindEndOfWord } from './content-helper';
 import { Mode } from './mode';
 
 class NavigationMode extends Mode {
@@ -9,7 +9,6 @@ class NavigationMode extends Mode {
 
 	constructor() {
 		super();
-		// console.log('navmode constructor');
 	}
 
 	activate() {
@@ -17,7 +16,6 @@ class NavigationMode extends Mode {
 			return;
 		}
 		super.activate();
-		// console.log('activate nav mode');
 
 		this.keyListener = ( e ) => { this.handleKeys( e ); };
 
@@ -35,7 +33,6 @@ class NavigationMode extends Mode {
 
 	deactivate() {
 		super.deactivate();
-		// console.log('deactivate nav mode');
 
 		document.removeEventListener( 'keydown', this.keyListener );
 	}
@@ -49,7 +46,14 @@ class NavigationMode extends Mode {
 		if ( e.key === 'e' ) {
 			// Move carrate to the end of next word
 			const endOfWordPosition = FindEndOfWord( pos, content );
-			console.log( endOfWordPosition );
+
+			start = endOfWordPosition;
+			end = start + 1;
+		}
+
+		if ( e.key === 'w' ) {
+			// Move carrate to the end of next word
+			const endOfWordPosition = FindBeginOfNextWord( pos, content );
 
 			start = endOfWordPosition;
 			end = start + 1;
