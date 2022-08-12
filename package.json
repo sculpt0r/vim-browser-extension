@@ -2,7 +2,25 @@
 	"name": "vim-browser-extension",
 	"version": "1.0.4",
 	"description": "Browser extension to allow vim keys for text editing.",
-	"main": "myforeground.js",
+	"browser": "src_js/plugin.js",
+	"scripts": {
+		"test": "nyc ava",
+		"obfuscate": "javascript-obfuscator ./src --output ./src-obfuscated",
+		"build": "npx rollup --config rollup.config.js --configPlugin typescript",
+		"build:watch": "npx rollup --config rollup.config.js --configPlugin typescript --watch",
+		"zip": "node zip.js",
+		"release": "npm run build || npm run zip"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sculpt0r/vim-browser-extension.git"
+	},
+	"author": "sculpt0r",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/sculpt0r/vim-browser-extension/issues"
+	},
+	"homepage": "https://github.com/sculpt0r/vim-browser-extension#readme",
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^22.0.2",
 		"@rollup/plugin-node-resolve": "^13.3.0",
@@ -20,24 +38,6 @@
 		"ts-node": "^10.9.1",
 		"typescript": "^4.7.4"
 	},
-	"scripts": {
-		"test": "nyc ava",
-		"obfuscate": "javascript-obfuscator ./src --output ./src-obfuscated",
-		"build": "npx rollup --config rollup.config.js --configPlugin typescript",
-		"build:watch": "npx rollup --config rollup.config.js --configPlugin typescript --watch",
-		"zip": "node zip.js",
-		"release": "npm run build || npm run zip"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/sculpt0r/vim-browser-extension.git"
-	},
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/sculpt0r/vim-browser-extension/issues"
-	},
-	"homepage": "https://github.com/sculpt0r/vim-browser-extension#readme",
 	"ava": {
 		"extensions": [
 			"ts"
