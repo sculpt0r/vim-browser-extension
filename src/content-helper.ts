@@ -2,7 +2,7 @@
 
 function FindEndOfWord( currentPosition : number, content : string ) : number {
 	//find last non empty char followed by empty char
-	const lastNonEmptyChar = /[^(\s\n)][\s]{1}/g;
+	const lastNonEmptyChar = /[^(\s\n)][\s|\W]{1}/g;
 
 	lastNonEmptyChar.lastIndex = currentPosition + 1;
 
