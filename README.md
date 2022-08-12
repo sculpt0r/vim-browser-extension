@@ -18,7 +18,8 @@ Please look at the indicator. When it becomes green: the plugin functions are av
 # supported keys
 Currently, `vim-typer` supports:
 - `h`,`j`,`k`,`l`
-- `e` has early support
+- `e`
+- `w` has early support
 - more are planned
 
 # Development
