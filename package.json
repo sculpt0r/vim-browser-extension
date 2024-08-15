@@ -26,6 +26,7 @@
 		"@rollup/plugin-node-resolve": "^13.3.0",
 		"@rollup/plugin-typescript": "^8.3.4",
 		"@stryker-mutator/core": "^6.1.2",
+		"@types/chrome": "^0.0.270",
 		"@typescript-eslint/eslint-plugin": "^5.33.0",
 		"@typescript-eslint/parser": "^5.33.0",
 		"archiver": "^5.3.1",
