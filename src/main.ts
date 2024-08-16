@@ -7,23 +7,35 @@ const modeMgr  = new ModeManager();
 
 let indicator;
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener( ( message, sender, sendResponse ) => {
 	TogglePlugin();
-});
+} );
 
 function TogglePlugin() {
-	if (!isEditableSupported()) {
+	const inAnyMode = modeMgr.anyMode();
+
+	// Prevent toggle ON, but allow OFF.
+	if ( !isEditableSupported() && !inAnyMode) {
 		return;
 	}
 
-	if ( modeMgr.anyMode() ) {
+	if ( inAnyMode ) {
 		modeMgr.changeMode( new EmptyMode() );
-		setIndicator( false );
 		//unpin all listeners etc...
 	} else {
+		document.activeElement.addEventListener( 'blur', () => {
+			modeMgr.changeMode( new EmptyMode() );
+			setIndicator( false );
+		})
+
 		modeMgr.changeMode( new NavigationMode() );
-		setIndicator( true );
 	}
+
+	setIndicator( !inAnyMode );
+}
+
+function isEditableSupported() : boolean {
+	return document.activeElement.tagName === 'TEXTAREA';
 }
 
 function keydownListener( e : KeyboardEvent ) : void {
@@ -40,10 +52,6 @@ function keydownListener( e : KeyboardEvent ) : void {
 			e.preventDefault();
 		}
 	}
-}
-
-function isEditableSupported() : boolean {
-	return document.activeElement.tagName === 'TEXTAREA';
 }
 
 function createIndicator() : void {
