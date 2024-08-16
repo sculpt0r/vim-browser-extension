@@ -7,9 +7,8 @@ Browser extension to allow vim keys for text editing.
 Other famous plugins use vim keys to navigate in browser/web page. This plugin allows to use vim keys in text editing inputs!
 
 # enable vim keys
-Plugins functionality can be toggled with a special key combination:
-- `alt` + `v` on windows / linux
-- `right option` + `left cmd` on macOS
+-   `alt` + `v` on windows / linux
+-   `Command` + `Control` + `v` on macOS
 
 It is because sometimes you may don't want to `vim-typer` interfere with another vim-like plugin.
 
