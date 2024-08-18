@@ -7,12 +7,12 @@ class NavigationMode extends Mode {
 	keyListener;
 	leftOffset : number;
 
-	constructor() {
-		super();
+	constructor( element ) {
+		super( element );
 	}
 
 	activate() {
-		if ( !getCarretStart( document.activeElement ) ) {
+		if ( !getCarretStart( this.element ) ) {
 			return;
 		}
 		super.activate();
@@ -21,14 +21,14 @@ class NavigationMode extends Mode {
 
 		document.addEventListener( 'keydown', this.keyListener );
 
-		const pos : number = getCarretStart( document.activeElement );
-		const content = this.getContent( document.activeElement );
+		const pos : number = getCarretStart( this.element );
+		const content = this.getContent( this.element );
 
 		this.leftOffset = RecalculateLeftOffset( pos, content );
 
 		const [ start, end ] = InitializeCarret( pos, content );
 
-		setSelection( start, end, document.activeElement );
+		setSelection( start, end, this.element );
 	}
 
 	deactivate() {
@@ -38,8 +38,8 @@ class NavigationMode extends Mode {
 	}
 
 	handleKeys( e ) {
-		const content = this.getContent( document.activeElement );
-		const pos = getCarretStart( document.activeElement );
+		const content = this.getContent( this.element );
+		const pos = getCarretStart( this.element );
 		this.leftOffset = RecalculateLeftOffset( pos, content );
 		let start, end = -1;
 
@@ -80,8 +80,7 @@ class NavigationMode extends Mode {
 			}
 		}
 
-		setSelection( start, end, document.activeElement );
-
+		setSelection( start, end, this.element );
 		e.preventDefault();
 	}
 

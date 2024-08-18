@@ -3,7 +3,7 @@ import { ModeManager } from './mode-manager';
 import { InsertMode } from './insert-mode';
 import { EmptyMode } from './empty-mode';
 
-const modeMgr  = new ModeManager();
+const modeMgr = new ModeManager();
 
 let indicator;
 let currentElement;
@@ -17,19 +17,19 @@ function TogglePlugin() {
 	const inAnyMode = modeMgr.anyMode();
 
 	// Prevent toggle ON, but allow OFF.
-	if ( !isEditableSupported() && !inAnyMode) {
+	if ( !isEditableSupported( document.activeElement ) && !inAnyMode) {
 		return;
 	}
 
 	const blurHanlder = () => {
-		modeMgr.changeMode( new EmptyMode() );
+		modeMgr.changeMode( new EmptyMode( currentElement ) );
 		setIndicator( false );
 
 		abortCtrlBlurHandler.abort();
 	}
 
 	if ( inAnyMode ) {
-		modeMgr.changeMode( new EmptyMode() );
+		modeMgr.changeMode( new EmptyMode( currentElement ) );
 		abortCtrlBlurHandler.abort();
 	} else {
 		abortCtrlBlurHandler = new AbortController();
@@ -40,30 +40,36 @@ function TogglePlugin() {
 			{ signal: abortCtrlBlurHandler.signal }
 		)
 
-		modeMgr.changeMode( new NavigationMode() );
+		modeMgr.changeMode( new NavigationMode( currentElement ) );
 	}
 
 	setIndicator( !inAnyMode );
 }
 
-function isEditableSupported() : boolean {
-	return document.activeElement.tagName === 'TEXTAREA';
+function isEditableSupported( element ) : boolean {
+	return element.tagName === 'TEXTAREA';
 }
 
 function keydownListener( e : KeyboardEvent ) : void {
-	if ( modeMgr.anyMode() ) {
-		if ( e.key === 'Escape' && ! ( modeMgr.currentMode instanceof NavigationMode ) ) {
-			modeMgr.changeMode( new NavigationMode() );
-		}
-
-		if (
-			modeMgr.currentMode instanceof NavigationMode &&
-			( e.key === 'i' || e.key === 'a' )
-		) {
-			modeMgr.changeMode( new InsertMode( e.key === 'a' ) );
-			e.preventDefault();
-		}
+	if ( !modeMgr.anyMode() ) {
+		return;
 	}
+
+	if (
+		e.key === 'Escape' &&
+		! ( modeMgr.currentMode instanceof NavigationMode )
+	) {
+		modeMgr.changeMode( new NavigationMode( currentElement ) );
+	}
+
+	if (
+		modeMgr.currentMode instanceof NavigationMode &&
+		( e.key === 'i' || e.key === 'a' )
+	) {
+		modeMgr.changeMode( new InsertMode( currentElement, e.key === 'a' ) );
+	}
+
+	e.preventDefault();
 }
 
 function createIndicator() : void {
@@ -79,7 +85,9 @@ function setIndicator( isActive : boolean ) {
 	indicator.style.background = isActive ? 'green' : 'red';
 }
 
-document.addEventListener( 'keydown', keydownListener );
+window.addEventListener( 'keydown', keydownListener,{
+	capture: true
+} );
 
 window.addEventListener( 'DOMContentLoaded', function( event ) {
 	createIndicator();
