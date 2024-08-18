@@ -23,7 +23,7 @@
 				"default": "Alt+V",
 				"mac": "Command+MacCtrl+V"
 			},
-			"description": "Toggle vim mode."
+			"description": "Toggle plugin activation."
 		}
 	},
 	"background": {
