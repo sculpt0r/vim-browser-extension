@@ -2,11 +2,12 @@
 
 # vim-browser-extension
 
-Browser extension which allows Vim keys for text editing.
+Browser extension which allows Vim keys for text editing inside `textarea` HTML elements.
+It uses only pure DOM API.
 
 # why it is different than other vim plugins
 
-Other famous plugins use vim keys to navigate in the browser/web page. This plugin allows to use vim keys in text editing inputs! **Currently only restricted to the `textarea` HTML elements.**
+Other famous plugins use vim keys to navigate in the browser/web page. This plugin allows to use vim keys in text editing inputs!
 
 # enable vim keys
 
