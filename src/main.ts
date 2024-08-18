@@ -6,6 +6,8 @@ import { EmptyMode } from './empty-mode';
 const modeMgr  = new ModeManager();
 
 let indicator;
+let currentElement;
+let abortCtrlBlurHandler;
 
 chrome.runtime.onMessage.addListener( ( message, sender, sendResponse ) => {
 	TogglePlugin();
@@ -19,14 +21,24 @@ function TogglePlugin() {
 		return;
 	}
 
+	const blurHanlder = () => {
+		modeMgr.changeMode( new EmptyMode() );
+		setIndicator( false );
+
+		abortCtrlBlurHandler.abort();
+	}
+
 	if ( inAnyMode ) {
 		modeMgr.changeMode( new EmptyMode() );
-		//unpin all listeners etc...
+		abortCtrlBlurHandler.abort();
 	} else {
-		document.activeElement.addEventListener( 'blur', () => {
-			modeMgr.changeMode( new EmptyMode() );
-			setIndicator( false );
-		})
+		abortCtrlBlurHandler = new AbortController();
+		currentElement = document.activeElement;
+		currentElement.addEventListener(
+			'blur',
+			blurHanlder,
+			{ signal: abortCtrlBlurHandler.signal }
+		)
 
 		modeMgr.changeMode( new NavigationMode() );
 	}
