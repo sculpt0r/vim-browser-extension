@@ -11,7 +11,7 @@ export class EmptyMode extends Mode {
 	activate() {
 		super.activate();
 		// console.log('active empty');
-		const pos = getCarretStart( document.activeElement );
-		setSelection( pos, pos, document.activeElement );
+		const pos = getCarretStart( this.element );
+		setSelection( pos, pos, this.element );
 	}
 }

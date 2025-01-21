@@ -5,7 +5,7 @@ export class ModeManager {
 	currentMode: Mode;
 
 	constructor() {
-		this.currentMode = new EmptyMode();
+		this.currentMode = new EmptyMode( document.activeElement );
 	}
 
 	changeMode( newMode: Mode ) {

@@ -1,6 +1,6 @@
 {
 	"name": "vim-browser-extension",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "Browser extension to allow vim keys for text editing.",
 	"browser": "src_js/plugin.js",
 	"scripts": {
@@ -9,7 +9,7 @@
 		"build": "npx rollup --config rollup.config.js --configPlugin typescript",
 		"build:watch": "npx rollup --config rollup.config.js --configPlugin typescript --watch",
 		"zip": "node zip.js",
-		"release": "npm run build || npm run zip"
+		"release": "npm run build && npm run zip"
 	},
 	"repository": {
 		"type": "git",
